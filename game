@@ -1,0 +1,286 @@
+from random import randint
+"""
+Developers:
+Yudachev N. - 60%
+Kuleshov R. - 40%
+"""
+"""Спасти Землю - образовательная и обучающая игра стратегия для детей и взрослых про экологию
+с увлекательным геймплеем. Создай собственную стратегию и спаси нашу планету от экологической катастрофы.
+
+В игре вы будете выполнять функции фонда по спасению Земли.
+Изучи зеленые инициативы людей со всего мира, которые влияют на будущее нашей планеты.
+Подумай, составь план действий и посмотри к чему приведет твоя стратегия.
+
+Цель игрока: стабилизировать экологическую обстановку на всей планете.
+Шаг за шагом восстанавливать и улучшать экологическое состояние Земли.
+"""
+
+print('Список параметров, за которыми вам нужно следить и менять в течение игры. '
+      'Ваша цель достигнуть значения трех и более из экологических параметров более 95. '
+      'Очки вам даны для покупки улучшений.'
+      'Если у трех и более параметров значение станет 0, это будет означать, что вы не смогли спасти нашу землю.'
+      ' Удачи! ')
+parameters = {'Очки': 45, 'Почва': 50, 'Океан': 50, 'Животные': 50, 'Климат': 50, 'Воздух': 50}
+dict_of_upgrades1 = {'1': 'Заработать 4 очка.', '2': 'Улучшить состояние почвы на 3.',
+                     '3': 'Улучшить состояние океана на 3.', '4': 'Улучшить состояние животных на 3.',
+                     '5': 'Улучшить состояние климата на 3.', '6': 'Улучшить состояние воздуха на 3.'}
+dict_of_upgrades2 = {'1': 'Заработать 8 очков.', '2': 'Улучшить состояние почвы на 5.',
+                     '3': 'Улучшить состояние океана на 5.', '4': 'Улучшить состояние животных на 5.',
+                     '5': 'Улучшить состояние климата на 5.', '6': 'Улучшить состояние воздуха на 5.'}
+dict_of_upgrades3 = {'1': 'Заработать 16 очков.', '2': 'Улучшить состояние почвы на 10.',
+                     '3': 'Улучшить состояние океана на 10.', '4': 'Улучшить состояние животных на 10.',
+                     '5': 'Улучшить состояние климата на 10.', '6': 'Улучшить состояние воздуха на 10.'}
+dict_of_random = {3: 'Изобрели новое удобрение почвы. Почва улучшилась на 12.', 4: 'Увелечение числа свалок. '
+                                                                                   'Почва ухудшилась на 12.',
+                  5: 'Увеличилось число браконьеров. Состояние животных ухудшилось на 12.', 6: 'Открытие новых '
+                                                                                               'заповедников. '
+                                                                                               'Состояние '
+                                                                                               'животных '
+                                                                                               'улучшилось на 12.',
+                  7: 'Защита леса. Воздух улучшился на 12', 8: 'Вырубка леса. Воздух ухудшился на 12.',
+                  9: 'Очистка океана от мусора и использование меньшего количества пластика. Состояние океана '
+                     'улучшилось на 12.', 10: 'Использование большего количества пластика. Состояние океана '
+                                              'ухудшилось на 12.',
+                  11: 'Запрет на личный транспорт. Климат улучшился на 12 ', 12: 'Глобальное потепление. Климат '
+                                                                                 'ухудшился на 12.'}
+print('ПАРАМЕТРЫ:')
+print(list(parameters.items()))
+
+
+def main(points, soil, ocean, animal, climate, air, steps):
+    while points > 2 and soil > 0 and ocean > 0 and animal > 0 and climate > 0 and air > 0 and steps < 15:
+        print('\n')
+        print('Параметры на текущем ходу:', list(parameters.items()))
+        event = randint(3, 12)
+        print('\nПРОИЗОШЛО СОБЫТИЕ: ', dict_of_random[event], sep='')
+        if event == 3:
+            parameters['Почва'] += 12
+        elif event == 4:
+            parameters['Почва'] -= 12
+        elif event == 5:
+            parameters['Животные'] -= 12
+        elif event == 6:
+            parameters['Животные'] += 12
+        elif event == 7:
+            parameters['Воздух'] += 12
+        elif event == 8:
+            parameters['Воздух'] -= 12
+        elif event == 9:
+            parameters['Океан'] += 12
+        elif event == 10:
+            parameters['Океан'] -= 12
+        elif event == 11:
+            parameters['Климат'] += 12
+        elif event == 12:
+            parameters['Климат'] -= 12
+        for j in parameters:
+            if j != 'Очки':
+                parameters[j] -= 1
+        win_parameters = 0
+        for k in list(parameters.values()):
+            if k >= 95:
+                win_parameters += 1
+        if win_parameters > 2:
+            return print('\nВы выиграли. Экологическая ситуация стабилизирована.')
+        critical_parameters = 0
+        for k in list(parameters.values()):
+            if k <= 0:
+                critical_parameters += 1
+        if critical_parameters > 2:
+            return print('\nВы проиграли. 3 и более параметров опустились слишком низко.')
+        if parameters['Очки'] <= 2:
+            print(
+                '\nОчков на улучшения не хвататет. Они будут пополнены автоматически и вы перейдете на следующий ход.')
+            parameters['Очки'] += 4
+            steps += 1
+            print('Номер хода:', steps)
+        steps += 1
+        print('Номер хода:', steps)
+        for element in dict_of_upgrades1:
+            print(element, dict_of_upgrades1[element])
+        user_choice = input('Цена каждого улучшения равна 2, выберите одно из них: ')
+
+        if int(user_choice) == 1:
+            parameters['Очки'] += 4
+
+        if int(user_choice) == 2:
+            parameters['Почва'] += 3
+            parameters['Очки'] -= 2
+
+        if int(user_choice) == 3:
+            parameters['Океан'] += 3
+            parameters['Очки'] -= 2
+
+        if int(user_choice) == 4:
+            parameters['Животные'] += 3
+            parameters['Очки'] -= 2
+
+        if int(user_choice) == 5:
+            parameters['Климат'] += 3
+            parameters['Очки'] -= 2
+
+        if int(user_choice) == 6:
+            parameters['Воздух'] += 3
+            parameters['Очки'] -= 2
+
+    print('Экология ухужшается, теперь все экологические параметры уменьшаются на 2 за один ход.')
+    while points > 4 and soil > 0 and ocean > 0 and animal > 0 and climate > 0 and air > 0 and 13 < steps < 30:
+        print('\n')
+        print('Параметры на текущем ходу:', list(parameters.items()))
+        event = randint(3, 12)
+        print('\nПРОИЗОШЛО СОБЫТИЕ: ', dict_of_random[event], sep='')
+        if event == 3:
+            parameters['Почва'] += 12
+        elif event == 4:
+            parameters['Почва'] -= 12
+        elif event == 5:
+            parameters['Животные'] -= 12
+        elif event == 6:
+            parameters['Животные'] += 12
+        elif event == 7:
+            parameters['Воздух'] += 12
+        elif event == 8:
+            parameters['Воздух'] -= 12
+        elif event == 9:
+            parameters['Океан'] += 12
+        elif event == 10:
+            parameters['Океан'] -= 12
+        elif event == 11:
+            parameters['Климат'] += 12
+        elif event == 12:
+            parameters['Климат'] -= 12
+        win_parameters = 0
+        for k in list(parameters.values()):
+            if k >= 95:
+                win_parameters += 1
+        if win_parameters > 2:
+            return print('\nВы выиграли. Экологическая ситуация стабилизирована.')
+        critical_parameters = 0
+        for k in list(parameters.values()):
+            if k <= 0:
+                critical_parameters += 1
+        if critical_parameters > 2:
+            return print('\nВы проиграли. 3 и более параметров опустились слишком низко.')
+        if parameters['Очки'] <= 4:
+            print(
+                '\nОчков на улучшения не хвататет. Они будут пополнены автоматически и вы перейдете на следующий ход.')
+            parameters['Очки'] += 8
+            steps += 1
+            print('Номер хода:', steps)
+            for j in parameters:
+                if j != 'Очки':
+                    parameters[j] -= 2
+        for j in parameters:
+            if j != 'Очки':
+                parameters[j] -= 2
+        steps += 1
+        print('Номер хода:', steps)
+        for element in dict_of_upgrades2:
+            print(element, dict_of_upgrades2[element])
+        user_choice = input('Цена каждого улучшения равна 4, выберите одно из них: ')
+
+        if int(user_choice) == 1:
+            parameters['Очки'] += 8
+
+        if int(user_choice) == 2:
+            parameters['Почва'] += 5
+            parameters['Очки'] -= 4
+
+        if int(user_choice) == 3:
+            parameters['Океан'] += 5
+            parameters['Очки'] -= 4
+
+        if int(user_choice) == 4:
+            parameters['Животные'] += 5
+            parameters['Очки'] -= 4
+
+        if int(user_choice) == 5:
+            parameters['Климат'] += 5
+            parameters['Очки'] -= 4
+
+        if int(user_choice) == 6:
+            parameters['Воздух'] += 5
+            parameters['Очки'] -= 4
+
+    print('Экология ухужшается, теперь все экологические параметры уменьшаются на 4 за один ход.')
+    while points >= 6 and soil >= 0 and ocean >= 0 and animal >= 0 and climate >= 0 and air >= 0 and 29 < steps:
+        print('\n')
+        print('Параметры на текущем ходу:', list(parameters.items()))
+        event = randint(3, 12)
+        print('\nПРОИЗОШЛО СОБЫТИЕ: ', dict_of_random[event], sep='')
+        if event == 3:
+            parameters['Почва'] += 12
+        elif event == 4:
+            parameters['Почва'] -= 12
+        elif event == 5:
+            parameters['Животные'] -= 12
+        elif event == 6:
+            parameters['Животные'] += 12
+        elif event == 7:
+            parameters['Воздух'] += 12
+        elif event == 8:
+            parameters['Воздух'] -= 12
+        elif event == 9:
+            parameters['Океан'] += 12
+        elif event == 10:
+            parameters['Океан'] -= 12
+        elif event == 11:
+            parameters['Климат'] += 12
+        elif event == 12:
+            parameters['Климат'] -= 12
+        win_parameters = 0
+        for k in list(parameters.values()):
+            if k >= 95:
+                win_parameters += 1
+        if win_parameters > 2:
+            return print('\nВы выиграли. Экологическая ситуация стабилизирована.')
+        if parameters['Очки'] <= 6:
+            print(
+                '\nОчков на улучшения не хвататет. Они будут пополнены автоматически и вы перейдете на следующий ход.')
+            parameters['Очки'] += 16
+            steps += 1
+            print('Номер хода:', steps)
+            for j in parameters:
+                if j != 'Очки':
+                    parameters[j] -= 4
+        critical_parameters = 0
+        for k in list(parameters.values()):
+            if k <= 0:
+                critical_parameters += 1
+        if critical_parameters > 2:
+            return print('\nВы проиграли. 3 и более параметров опустились слишком низко.')
+        for j in parameters:
+            if j != 'Очки':
+                parameters[j] -= 4
+        steps += 1
+        print('Номер хода:', steps)
+        for element in dict_of_upgrades2:
+            print(element, dict_of_upgrades2[element])
+        user_choice = input('Цена каждого улучшения равна 6, выберите одно из них: ')
+
+        if int(user_choice) == 1:
+            parameters['Очки'] += 16
+
+        if int(user_choice) == 2:
+            parameters['Почва'] += 10
+            parameters['Очки'] -= 6
+
+        if int(user_choice) == 3:
+            parameters['Океан'] += 10
+            parameters['Очки'] -= 6
+
+        if int(user_choice) == 4:
+            parameters['Животные'] += 10
+            parameters['Очки'] -= 6
+
+        if int(user_choice) == 5:
+            parameters['Климат'] += 10
+            parameters['Очки'] -= 6
+
+        if int(user_choice) == 6:
+            parameters['Воздух'] += 10
+            parameters['Очки'] -= 6
+
+
+main(parameters['Очки'], parameters['Почва'], parameters['Океан'], parameters['Животные'],
+     parameters['Климат'], parameters['Воздух'], 0)
